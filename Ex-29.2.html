@@ -24,17 +24,18 @@
     </div>
   </body>
   <script>
-    document.getElementById("getJoke").addEventListener("click", () => {
-      fetch("https://api.jokes.one/jod")
-        .then((res) => res.json())
-        .then((data) => {
-          let jokeOfTheDay = data.contents.jokes[0].joke;
-          document.querySelector(
-            ".container"
-          ).innerHTML = `<h2>${jokeOfTheDay.title}</h2>
+    const getJoke = async () => {
+      const res = await fetch("https://api.jokes.one/jodass");
+      const data = await res.json();
+      let jokeOfTheDay = data.contents.jokes[0].joke;
+      document.querySelector(
+        ".container"
+      ).innerHTML = `<h2>${jokeOfTheDay.title}</h2>
         <p>${jokeOfTheDay.text}</p>`;
-        })
-        .catch((err) => console.log(err));
+    };
+
+    document.getElementById("getJoke").addEventListener("click", () => {
+      getJoke().catch((err) => console.log("An error occured: ", err));
     });
   </script>
 </html>
