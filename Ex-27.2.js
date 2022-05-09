@@ -1,15 +1,21 @@
 const makeAllCaps = (arr) => {
-  return arr.map((word) => word[0].toUpperCase() + word.slice(1));
+  return new Promise((resolve, reject) => {
+    if (arr && arr.length > 0) {
+      resolve(arr.map((word) => word[0].toUpperCase() + word.slice(1)));
+    } else {
+      reject("Check argument!");
+    }
+  });
 };
 
 const sortWords = (arr) => {
   return new Promise((resolve, reject) => {
     arr.forEach((word) => {
-      if (/[^A-Za-z]/.test(word)) {
+      if (/[^a-z]/i.test(word)) {
         reject(`Found a char that is not a letter! in the word: ${word}`);
       }
     });
-    resolve(makeAllCaps(arr).sort());
+    resolve(arr.sort());
   });
 };
 
@@ -36,18 +42,28 @@ const arrWords2 = [
   "h3re",
 ];
 
-sortWords(arrWords)
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// sortWords(arrWords2)
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
-sortWords(arrWords2)
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+//! empty array or undefined
+makeAllCaps([])
+  .then((data) => sortWords(data))
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+
+//! working
+makeAllCaps(arrWords)
+  .then((data) => sortWords(data))
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+
+//! something other than letter
+makeAllCaps(arrWords2)
+  .then((data) => sortWords(data))
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
